@@ -1,6 +1,9 @@
 package com.ll;
 
+import java.sql.ClientInfoStatus;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 public class App {
     Scanner sc;
@@ -11,8 +14,10 @@ public class App {
 
     public void run() {
         int lastId = 1;
+        List<Article> articleList = new ArrayList<>();
 
         System.out.println("== 게시판 앱 ==");
+
 
         while (true) {
             System.out.println("명령) ");
@@ -26,9 +31,34 @@ public class App {
                 System.out.println("내용 : ");
                 String content = sc.nextLine().trim();
 
+                Article article = new Article(lastId, subject, content);
+                articleList.add(article);
+
                 System.out.printf("%d번 게시글이 등록되었습니다.\n", lastId);
                 lastId++;
+            } else if (command.equals("목록")) {
+                System.out.println("번호/제목/내용");
+                System.out.println("------------");
+
+                for (int i = articleList.size() - 1; i >= 0; i--) {
+                    Article article = articleList.get(i);
+                    System.out.printf("%d / %s / %s\n", article.getId(), article.getSubject(), article.getContent());
+                }
+            } else if (command.startsWith("삭제")) {
+                String[] commandList = command.split("\\?", 2);
+                String[] paramsStr = commandList[1].split("=", 2);
+
+                String value = paramsStr[1];
+                int idx = Integer.parseInt(value);
+
+                for (int i = 0; i < articleList.size(); i++) {
+                    if (articleList.get(i).getId() == idx) {
+                        articleList.remove(i);
+                    }
+                }
+                System.out.printf("%d번 게시물이 삭제 되었습니다\n", idx);
             }
         }
     }
 }
+
