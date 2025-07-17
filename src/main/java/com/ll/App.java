@@ -1,13 +1,26 @@
 package com.ll;
 
+import com.ll.DB.DBConnection;
 import com.ll.article.ArticleController;
 import com.ll.system.Systemcontroller;
+
+import java.util.List;
+import java.util.Map;
+
 
 public class App {
     ArticleController article_controller;
     Systemcontroller systemcontroller;
 
     App() {
+        DBConnection.DB_NAME = "proj1";
+        DBConnection.DB_PORT = 3306;
+        DBConnection.DB_USER = "root";
+        DBConnection.DB_PASSWORD = "";
+
+        Container.getDBConnection().connect();
+
+
         article_controller = new ArticleController();
         systemcontroller = new Systemcontroller();
     }
@@ -27,7 +40,7 @@ public class App {
             if (command.equals("종료")) {
                 systemcontroller.exit();
                 break;
-            } else if (command.equals("x")) {
+            } else if (command.equals("등록")) {
                 article_controller.write();
             } else if (command.equals("목록")) {
                 article_controller.list();

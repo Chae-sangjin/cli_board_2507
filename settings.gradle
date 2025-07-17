@@ -1,2 +1,3 @@
 rootProject.name = 'cli_board_2507'
 include 'src:test:untitled'
+
